@@ -14,7 +14,7 @@ type Database struct {
 
 type Interface interface {
 	Health() bool
-	FindAll(condition expression.Expression, tablename string) (respoonse *dynamodb.ScanOutput, err error)
+	FindAll(condition expression.Expression, tablename string) (respoonse *dynamodb.ScanInput, err error)
 	FindOne(condition map[string]interface{}, tablename string) (response *dynamodb.GetItemOutput, err error)
 	CreateOrUpdate(entity interface{}, tablename string) (response *dynamodb.PutItemOutput, err error)
 	Delete(condition map[string]interface{}, tableName string) (response *dynamodb.DeleteItemOutput, err error)
@@ -34,6 +34,7 @@ func (db *Database) Health() bool {
 
 func (db *Database) FindAll(condition expression.Expression, tablename string) (respoonse *dynamodb.ScanInput, err error) {
 	input := &dynamodb.ScanInput{
+
 		ExpressionAttributeNames:  condition.Names(),
 		ExpressionAttributeValues: condition.Values(),
 		FilterExpression:          condition.Filter(),
