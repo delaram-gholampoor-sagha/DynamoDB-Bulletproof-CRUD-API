@@ -29,7 +29,7 @@ func (resp *response) string() string {
 	return string(resp.bytes())
 }
 
-func (resp *response) sendRequest(w http.ResponseWriter, r *http.Request) {
+func (resp *response) sendResponse(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(resp.Status)
@@ -37,44 +37,43 @@ func (resp *response) sendRequest(w http.ResponseWriter, r *http.Request) {
 	log.Println(resp.string())
 }
 
-
 //200
-func StatusOK() {
-
+func StatusOK(w http.ResponseWriter, r *http.Request, data interface{}) {
+	newResponse(data, http.StatusOK).sendResponse(w, r)
 }
 
-
 //204
-func StatusNoContent() {
-
+func StatusNoContent(w http.ResponseWriter, r *http.Request) {
+	newResponse(nil, http.StatusNoContent).sendResponse(w, r)
 }
 
 //400
-func StatusBadRequest() {
-
+func StatusBadRequest(w http.ResponseWriter, r *http.Request, err error) {
+	data := map[string]interface{}{"error": err.Error()}
+	newResponse(data, http.StatusBadRequest).sendResponse(w, r)
 }
 
 //404
-func StatusNotFound() {
-
+func StatusNotFound(w http.ResponseWriter, r *http.Request, err error) {
+	data := map[string]interface{}{"error": err.Error()}
+	newResponse(data, http.StatusNotFound).sendResponse(w, r)
 }
 
 //405
-func StatusMethodNotAllowed() {
-
+func StatusMethodNotAllowed(w http.ResponseWriter, r *http.Request) {
+	newResponse(nil, http.StatusMethodNotAllowed).sendResponse(w, r)
 }
 
 //409
-func StatusConflict() {
-
-}
-
-//409
-func StatusConflict() {
+func StatusConflict(w http.ResponseWriter, r *http.Request, err error) {
+	data := map[string]interface{}{"error": err.Error()}
+	newResponse(data, http.StatusBadRequest).sendResponse(w, r)
 
 }
 
 //500
-func StatusIntervalServerError() {
+func StatusIntervalServerError(w http.ResponseWriter, r *http.Request, err error) {
+	data := map[string]interface{}{"error": err.Error()}
+	newResponse(data, http.StatusBadRequest).sendResponse(w, r)
 
 }
