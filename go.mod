@@ -6,4 +6,5 @@ require (
 	github.com/aws/aws-sdk-go v1.42.29 // indirect
 	github.com/go-chi/chi v1.5.4 // indirect
 	github.com/go-chi/cors v1.2.0 // indirect
+	github.com/google/uuid v1.3.0 // indirect
 )
